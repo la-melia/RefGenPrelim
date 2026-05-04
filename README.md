@@ -20,7 +20,15 @@ mapping/parameters and input data types across different types of sequencing dat
 reference genome types (diploid vs hexaploid).
 
 1. Record md5 sum of utilized genomic references.
-
+ downloaded Trifida v3, Beauregard v4 and Tiazgon 6 reference genomes using downloadrefgen.sh
+unziped files and recorded md5 sum
+  981  gunzip Beauregard_v4.asm.fa >> RefGenmd5sum
+  982  gunzip NSP306_trifida_chr_v3.fa.zip
+  983  gunzip -S .zip NSP306_trifida_chr_v3.fa.zip
+  986  nano RefGenmd5sum
+  987  md5sum Beauregard_v4.asm.fa >> RefGenmd5sum
+  989  md5sum NSP306_trifida_chr_v3.fa >> RefGenmd5sum 
+  990  md5sum ipoBat4.fa >> RefGenmd5sum 
 2. Simulate data of known genomic location for each reference genotype for the following:
 
 a. Illumina short-read WGS data (to be equivalent to your DArT reads, 81bp I think)
