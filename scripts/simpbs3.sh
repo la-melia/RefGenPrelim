@@ -34,12 +34,19 @@ module load miniconda3
 source activate RefGenPrelim
 
 # 4. Step Two: Simulate PacBio HiFi Reads
+# Find the model file (usually in your conda environment or pbsim3 folder)
+# If you can't find it, you may need to download the pbsim3 sample models
+#MODEL_DIR="${CONDA_PREFIX}/pkgs/pbsim3-3.0.5-h9948957_2/data/"
+#ERR_MODEL="${MODEL_DIR}/ERRHMM-P6C4.model"
+ERR_MODEL="/home/amelia.loeb/.conda/pkgs/pbsim3-3.0.5-h9948957_2/data/QSHMM-RSII.model"
+
+# 4. Step Two: Simulate PacBio HiFi Reads
 # We target 200x depth of the DIGESTED fragments, not the whole genome
 pbsim --strategy wgs \
-      --method errhmm
-      --sample 
-      --genome "${GENOME_OUT}/digested_fragments.fa" \
-      --depth 200 \
+      --method qshmm \
+      --qshmm "${ERR_MODEL}" \
+      --genome "${REF}" \
+      --depth 20 \
       --prefix "${GENOME_OUT}/${NAME}_pb"
 
 echo "Simulation for $NAME complete."

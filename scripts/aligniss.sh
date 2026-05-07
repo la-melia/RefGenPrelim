@@ -12,7 +12,7 @@
 
 # 1. Setup Variables
 DIR="/project/gbru_sweetpotato/RefGenPrelim"
-BAM_DIR="${DIR}/data/bams"
+BAM_DIR="${DIR}/data/bams/iss"
 mkdir -p "$BAM_DIR" logs
 
 

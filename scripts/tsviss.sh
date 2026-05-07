@@ -13,7 +13,7 @@
 # 1. Setup Variables
 DIR="/project/gbru_sweetpotato/RefGenPrelim"
 BAM_DIR="${DIR}/data/bams"
-STATS_DIR="${DIR}/data/stats"
+STATS_DIR="${DIR}/data/issaligntsv"
 mkdir -p "$STATS_DIR" logs
 
 

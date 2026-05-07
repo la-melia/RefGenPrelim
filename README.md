@@ -4,22 +4,19 @@ Given by Dr. Amanda Hulse-Kemp
 May 2026
 
 The goal: investigate differences of reference genomes across ploidy levels for sweetpotato
+The process:
+1: download reference genomes 
+reference genomes: I. trifida (NSP306) & I.batatas c.v. Beauregard v4 [I.batatas c.v. Taizong 6 included but not discussed]
+2: record MD5SUM for reference genomes
+3: Sample reads from reference genomes
+- simulated illumina reads
+- simulated PacBio wgs reads
+4: Align reads back to their reference genomes
 
-Set up a documented code repository to investigate the differences when operating across ploidy levels
+The scripts & code:
 
-for sweet potato, thinking in terms of how this can impact your downstream decisions. You can use the
-
-diploid reference you’ve mostly been working with to date Ipomoea trifida (NSP306) and the newest
-
-hexaploid reference v4 of I. batatas Beauregard (assuming that’s the most relevant to your materials, if
-
-you disagree use the other polyploid closest and explain why) to investigate impacts of read
-
-mapping/parameters and input data types across different types of sequencing data and different
-
-reference genome types (diploid vs hexaploid).
-
-1. Record md5 sum of utilized genomic references.
+1.Download reference genomes
+ Record md5 sum of utilized genomic references.
  downloaded Trifida v3, Beauregard v4 and Tiazgon 6 reference genomes using downloadrefgen.sh
 unziped files and recorded md5 sum
   981  gunzip Beauregard_v4.asm.fa >> RefGenmd5sum
