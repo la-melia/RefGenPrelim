@@ -4,8 +4,8 @@
 #SBATCH --error=logs/align_%a.err
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=12G                 # Slightly increased for safety
-#SBATCH --time=02:00:00
+#SBATCH --mem=32G                 # Slightly increased for safety
+#SBATCH --time=08:00:00
 #SBATCH --array=0-8               # 9 combinations total (0,1,2,3,4,5,6,7,8)
 
 
@@ -14,8 +14,6 @@
 DIR="/project/gbru_sweetpotato/RefGenPrelim"
 BAM_DIR="${DIR}/data/bams/iss"
 mkdir -p "$BAM_DIR" logs
-
-
 
 # Define the species list
 SPECIES=("trif" "beau" "taiz")
@@ -45,9 +43,9 @@ GENOME_FILE=${GENOME_FILES[$G_IDX]}
 
 
 # 3. Paths to files
-REF_PATH="${DIR}/data/${GENOME_FILE}"
-R1="${DIR}/data/iss/${READ_NAME}/${READ_NAME}_R1.fastq"
-R2="${DIR}/data/iss/${READ_NAME}/${READ_NAME}_R2.fastq"
+REF_PATH="${DIR}/data/genomes/${GENOME_FILE}"
+R1="${DIR}/data/trimmed_reads/${READ_NAME}/${READ_NAME}_trimmed_R1.fastq.gz"
+R2="${DIR}/data/trimmed_reads/${READ_NAME}/${READ_NAME}_trimmed_R2.fastq.gz"
 OUT_BAM="${BAM_DIR}/${REF_NAME}_ref_${READ_NAME}_reads.bam"
 
 echo "Task $SLURM_ARRAY_TASK_ID: Aligning $READ_NAME reads to $REF_NAME genome"

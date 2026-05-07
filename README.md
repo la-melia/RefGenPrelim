@@ -5,41 +5,28 @@ May 2026
 
 The goal: investigate differences of reference genomes across ploidy levels for sweetpotato
 The process:
-1: download reference genomes 
+- 1: download reference genomes 
 reference genomes: I. trifida (NSP306) & I.batatas c.v. Beauregard v4 [I.batatas c.v. Taizong 6 included but not discussed]
-2: record MD5SUM for reference genomes
-3: Sample reads from reference genomes
-- simulated illumina reads
-- simulated PacBio wgs reads
-4: Align reads back to their reference genomes
+- 2: record MD5SUM for reference genomes
+- 3: Sample reads from reference genomes
+	- simulated illumina reads
+	- simulated PacBio wgs reads
+- 4: Align reads back to their reference genomes
 
 The scripts & code:
 
-1.Download reference genomes
- Record md5 sum of utilized genomic references.
- downloaded Trifida v3, Beauregard v4 and Tiazgon 6 reference genomes using downloadrefgen.sh
-unziped files and recorded md5 sum
-  981  gunzip Beauregard_v4.asm.fa >> RefGenmd5sum
-  982  gunzip NSP306_trifida_chr_v3.fa.zip
-  983  gunzip -S .zip NSP306_trifida_chr_v3.fa.zip
-  986  nano RefGenmd5sum
-  987  md5sum Beauregard_v4.asm.fa >> RefGenmd5sum
-  989  md5sum NSP306_trifida_chr_v3.fa >> RefGenmd5sum 
-  990  md5sum ipoBat4.fa >> RefGenmd5sum 
+- 1.Download reference genomes
+  - **downloadrefgen.sh**
+  - Record md5 sum of utilized genomic references.
+  - **indexreference.sh**
 2. Simulate data of known genomic location for each reference genotype for the following:
+	a. Illumina short-read WGS data (to be equivalent to your DArT reads, 81bp I think)
+		- **simiss.sh** or **simiss.sh** to simulate 200 million HiSeq reads per genome
+			- 200 million was chosen to provide coverage for genome size
+			- HiSeq simulation chosen based on https://pmc.ncbi.nlm.nih.gov/articles/PMC5407923/ 
+	b. Pacbio long-read WGS data
 
-a. Illumina short-read WGS data (to be equivalent to your DArT reads, 81bp I think)
-
-b. Pacbio long-read WGS data
-
-c. Optional – GBS and/or your actual DArT positions - I don’t believe that GBS short-read
-
-data is currently being used in the program but if it is you can run that as well here –
-
-identify which enzymes they’re running and substitute: ex. PstI and MspI double digest
-
-
-
+	c. Optional – GBS and/or your actual DArT positions - I don’t believe that GBS short-read
 3. Align simulated data back to the following genome assemblies,
 
 a. Itself - respective reference genomes

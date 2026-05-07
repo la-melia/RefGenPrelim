@@ -12,8 +12,8 @@
 
 # 1. Setup Variables
 DIR="/project/gbru_sweetpotato/RefGenPrelim"
-BAM_DIR="${DIR}/data/bams"
-STATS_DIR="${DIR}/data/issaligntsv"
+BAM_DIR="${DIR}/data/bams/iss"
+STATS_DIR="${DIR}/results/issaligntsv"
 mkdir -p "$STATS_DIR" logs
 
 
@@ -49,17 +49,26 @@ echo "Processing Task $SLURM_ARRAY_TASK_ID: $INPUT_BAM"
 # 3. Load Samtools
 module load samtools
 
-
-
-# 4. Run the extraction
-# We check if the BAM exists first to avoid empty files
+# 3. Run the extraction
 if [ -f "$INPUT_BAM" ]; then
-    samtools view "$INPUT_BAM" | \
+    # Add a header line to the TSV
+    # Including the two parts from the QNAME split
+    echo -e "NAME_PART1\tNAME_PART2\tFLAG\tRNAME\tMAPQ\tCIGAR\tQUAL" > "$OUTPUT_TSV"
+
+    # samtools view flags:
+    # -F 4 : Filters out unmapped reads
+    # -q 30: Filters out reads with MAPQ < 30
+    samtools view -F 4 -q $MAPQ_THRESHOLD "$INPUT_BAM" | \
     awk -F'\t' '{ 
-        split($1, header, "_"); 
-        print header[1] "\t" header[2] "\t" $3 "\t" $4 "\t" $5 
-    }' > "$OUTPUT_TSV"
-    echo "Saved stats to $OUTPUT_TSV"
+        # Split the original QNAME ($1) by underscores to get original read positions
+        split($1, h, "_"); 
+        
+        # Print parts 1 & 2 of the header, plus the requested BAM fields
+        # $2=FLAG, $3=RNAME, $5=MAPQ, $6=CIGAR, $11=QUAL
+        print h[1] "\t" h[2] "\t" $2 "\t" $3 "\t" $5 "\t" $6 "\t" $11 
+    }' >> "$OUTPUT_TSV"
+
+    echo "Saved filtered stats to $OUTPUT_TSV"
 else
     echo "Error: $INPUT_BAM not found."
     exit 1
