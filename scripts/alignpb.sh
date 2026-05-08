@@ -14,7 +14,7 @@ PB_DATA="${DIR}/data/pbsim3"
 BAM_DIR="${DIR}/results/data/bams/pb"
 mkdir -p "$BAM_DIR" logs
 
-SPECIES=("trif" "taiz")
+SPECIES=("trif" "taiz" "beau")
 GENOME_FILES=(
     "NSP306_trifida_chr_v3.fa"
     "Beauregard_v4.asm.fa"
@@ -29,7 +29,7 @@ REF_NAME=${SPECIES[$G_IDX]}
 READ_NAME=${SPECIES[$R_IDX]}
 GENOME_FILE=${GENOME_FILES[$G_IDX]}
 
-REF_PATH="${DIR}/data/${GENOME_FILE}"
+REF_PATH="${DIR}/data/genomes/${GENOME_FILE}"
 READ_DIR="${PB_DATA}/${READ_NAME}"
 OUT_BAM="${BAM_DIR}/${REF_NAME}_ref_${READ_NAME}_pb.bam"
 

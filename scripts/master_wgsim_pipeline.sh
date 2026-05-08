@@ -80,33 +80,42 @@ echo "Aligning to $REF_NAME..."
 if [ ! -f "${REF_FILE}.bwt" ]; then
     bwa index "$REF_FILE"
 fi
-bwa mem -t $SLURM_CPUS_PER_TASK -a "$REF_FILE" "$TRIM_R1" "$TRIM_R2" | \
+bwa mem -t $SLURM_CPUS_PER_TASK -a "$REF_FILE" "$TRIM_R1" | \
 
 samtools view -h -F 4 - | \
 samtools sort -@ 4 -o "$OUT_BAM"
 samtools index "$OUT_BAM"
-
 # ---------------------------------------------------------
-# 5. Extraction (TSV Logic)
+
+# 5. Advanced Extraction (Fixed Syntax)
+
 # ---------------------------------------------------------
 
 OUTPUT_TSV="${RESULTS_DIR}/tsv/${REF_NAME}_vs_${READ_NAME}_coords.tsv"
-
-echo -e "TRUE_CHR\tTRUE_POS\tFLAG\tMAP_CHR\tMAP_POS\tMAPQ\tCIGAR" > "$OUTPUT_TSV"
-
-samtools view -q $MAPQ_THRESHOLD "$OUT_BAM" | \
-awk -F'\t' '{ 
-    # wgsim headers: @CHR_POS1_POS2_READ_COUNT
-    # Split the QNAME ($1) by underscores
-    n = split($1, h, "_"); 
-
-    # h[1] is Chromosome, h[2] is the Start Position from wgsim
+echo -e "READ_NUM\tTRUE_CHR\tTRUE_START\tTRUE_END\tTRUE_MUT\tMAP_CHR\tMAP_POS\tMAPQ\tCIGAR\tOFFSET" > "$OUTPUT_TSV"
+samtools view -q "$MAPQ_THRESHOLD" "$OUT_BAM" | awk -F'\t' '
+{
+    # 1. Parse wgsim header
+    n = split($1, h, "_");
     true_chr = h[1];
-    true_pos = h[2];
-
-    # Print True vs Mapped info
-    # $2=FLAG, $3=MAP_CHR, $4=MAP_POS, $5=MAPQ, $6=CIGAR
-    print true_chr "\t" true_pos "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6 
+    true_start = h[2];
+    true_end = h[3];
+    # 2. Identify R1 vs R2 using the FLAG ($2)
+    # If (Flag / 64) is odd, it is Read 1. If (Flag / 128) is odd, it is Read 2.
+    if (int($2/64) % 2 == 1) {
+        read_num = "R1";
+        true_mut = h[4];
+        expected_pos = true_start;
+    } else {
+        read_num = "R2";
+        true_mut = h[5];
+        # R2 starts at: Fragment End - ReadLength + 1
+        expected_pos = true_end - 150 + 1;
+    }
+    # 3. Calculate Offset
+    # Mapping position ($4) minus where wgsim said it should be
+    offset = $4 - expected_pos;
+    # 4. Output results
+    print read_num "\t" true_chr "\t" true_start "\t" true_end "\t" true_mut "\t" $3 "\t" $4 "\t" $5 "\t" $6 "\t" offset
 }' >> "$OUTPUT_TSV"
-
 echo "Pipeline complete for Task $SLURM_ARRAY_TASK_ID."

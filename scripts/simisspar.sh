@@ -34,9 +34,9 @@ echo "Starting simulation for $NAME using $SLURM_CPUS_PER_TASK CPUs..."
 # --n_reads: 200M is huge; ensure you have the disk space!
 
 iss generate \
-    --genomes "${DATADIR}/${REF_FILE}" \
+    --genomes "${DATADIR}/genomes/${REF_FILE}" \
     --model HiSeq \
-    --n_reads 200M \
+    --n_reads 6K \
     --cpus $SLURM_CPUS_PER_TASK \
     --output "${OUTDIR}/${NAME}"
 echo "Simulation for $NAME finished."

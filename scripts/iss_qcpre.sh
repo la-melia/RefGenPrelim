@@ -13,7 +13,7 @@ DIR="/project/gbru_sweetpotato/RefGenPrelim"
 SPECIES=("trif" "beau" "taiz")
 NAME=${SPECIES[$SLURM_ARRAY_TASK_ID]}
 
-INPUT_DIR="${DIR}/data/iss/${NAME}"
+INPUT_DIR="${DIR}/data/wgsim/${NAME}"
 OUT_DIR="${INPUT_DIR}/qcpre"
 
 mkdir -p "$OUT_DIR" logs

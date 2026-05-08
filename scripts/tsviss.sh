@@ -15,7 +15,7 @@ DIR="/project/gbru_sweetpotato/RefGenPrelim"
 BAM_DIR="${DIR}/data/bams/iss"
 STATS_DIR="${DIR}/results/issaligntsv"
 mkdir -p "$STATS_DIR" logs
-
+MAPQ_THRESHOLD=30 #
 
 
 # Define the species list
@@ -53,7 +53,7 @@ module load samtools
 if [ -f "$INPUT_BAM" ]; then
     # Add a header line to the TSV
     # Including the two parts from the QNAME split
-    echo -e "NAME_PART1\tNAME_PART2\tFLAG\tRNAME\tMAPQ\tCIGAR\tQUAL" > "$OUTPUT_TSV"
+    echo -e "TRUECHR\tTRUEPOS\tTRUEDIR\tFLAG\tRNAME\tMAPPOS\tMAPQ\tCIGAR\tQUAL" > "$OUTPUT_TSV"
 
     # samtools view flags:
     # -F 4 : Filters out unmapped reads
@@ -65,7 +65,7 @@ if [ -f "$INPUT_BAM" ]; then
         
         # Print parts 1 & 2 of the header, plus the requested BAM fields
         # $2=FLAG, $3=RNAME, $5=MAPQ, $6=CIGAR, $11=QUAL
-        print h[1] "\t" h[2] "\t" $2 "\t" $3 "\t" $5 "\t" $6 "\t" $11 
+        print h[1] "\t" h[2] "\t" h[3] "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6 "\t" $11 
     }' >> "$OUTPUT_TSV"
 
     echo "Saved filtered stats to $OUTPUT_TSV"

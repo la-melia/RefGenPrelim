@@ -43,7 +43,7 @@ R1_OUT="${OUTDIR}/${NAME}_R1.fq"
 R2_OUT="${OUTDIR}/${NAME}_R2.fq"
 
 wgsim -N 3000 \
-      -1 150 \
+      -1 81 \
       -2 150 \
       -d 500 \
       -s 50 \
