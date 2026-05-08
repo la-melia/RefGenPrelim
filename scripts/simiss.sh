@@ -29,10 +29,10 @@ module load miniconda3
 source activate RefGenPrelim
 
 #generate reads
-#requesting 200 million reads
-iss generate --genomes "${DATADIR}/${TRIF}" --model HiSeq -n 200M -o "${TRIFOUT}/trif"
-iss generate --genomes "${DATADIR}/${BEAU}" --model HiSeq -n 200M -o "${BEAUOUT}/beau"
-iss generate --genomes "${DATADIR}/${TAIZ}" --model HiSeq -n 200M -o "${TAIZOUT}/taiz"
+#requesting 6 thousand reads
+iss generate --genomes "${DATADIR}/genomes/${TRIF}" --model HiSeq -n 6K -o "${TRIFOUT}/trif"
+iss generate --genomes "${DATADIR}/genomes/${BEAU}" --model HiSeq -n 6K -o "${BEAUOUT}/beau"
+iss generate --genomes "${DATADIR}/genomes/${TAIZ}" --model HiSeq -n 6K -o "${TAIZOUT}/taiz"
 
 # align reads to genome
 

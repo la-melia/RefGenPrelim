@@ -23,38 +23,62 @@ The scripts & code:
 	a. Illumina short-read WGS data (to be equivalent to your DArT reads, 81bp I think)
 		- **simiss.sh** or **simiss.sh** to simulate 200 million HiSeq reads per genome
 			- 200 million was chosen to provide coverage for genome size
-			- HiSeq simulation chosen based on https://pmc.ncbi.nlm.nih.gov/articles/PMC5407923/ 
+			- HiSeq simulation chosen based on https://pmc.ncbi.nlm.nih.gov/articles/PMC5407923/
+			- did not work well because sampling location was not correctly saved in header
+		- **simwg.sh** to simulate illumina 81bp reads, other lengths tested, including paired-ends 
 	b. Pacbio long-read WGS data
+		- **simpb3.sh** to simulate pacbio long reads. Did not work well because sampling location was unable to be identified
+	c. Optional – GBS and/or your actual DArT positond
+		- aligned unique reference and alternate consensus sequences from population that was genotyped with DaRT panel
+		- **simgbs.sh**
+3. Align simulated data back to the following genome assemblies
+	a. Short Reads
+		- **iss_qcpre.sh** optional quality control check
+		- **trim_iss.sh** optional trimming of reads
+		- **aligniss.sh** to align InSilicoSeq reads using bwa-me
+		- **tsviss.sh** extract mapping coordinates from bam file
+		- **master_wgsim_pipeline.sh** total script to align and extract mapping coordinates from simulated short reads produced by **simwg.sh**
+	b. long reads
+		- **alignpb.sh** align pacbio reads simulated from simpb3
+		- **tsvpb.sh** extract mapping coordinates from bam files of long reads
+4. Visualize the proportion of reads aligning to the correct spot across the genomes
+5. Additional Scripts [mostly unused]
+	- **mummer.sh** tried aligning long reads to reference genomes, issue with awk commands for reads, did not use
+	- **qualimapat.sh** tried to examine the quality of the mapping for short reads, did not prove insightful since coverage was not a factor
+	- *qcgenome.sh** script to compare the quality of reference genomes using assembly stats, busco & quash. Ran, but did not include data due to time
 
-	c. Optional – GBS and/or your actual DArT positions - I don’t believe that GBS short-read
-3. Align simulated data back to the following genome assemblies,
-
-a. Itself - respective reference genomes
-
-b. The other reference genome
-
-4. Visualize the proportion of reads aligning to the correct spot across the genomes. (Known
-
-position vs mapped position for 2a).
-
-5. Visualize relationship between the genomes with true position (Y) and the mapped position of
-
-the reads on the other genome (X).
-
-Interpret your findings (and any struggles for being able to complete analysis), particularly in terms of
-
-thinking related to your project, and communicate your suggestions as a short presentation to
-
-potentially occur at the beginning of the oral prelim session.
-
-Consider how to include simulated variants of various types (SNPs, InDels, etc), in your simulation
-
-design, how to deal with multiple copies of each homologous chromosome (e.g., in the hexaploid
-
-reference), and whether a pan-genome approach may improve your results.
-
-
-
-
-
+Repository Structure (data not included due to space)
+RefGenPrelim/
+├── data/
+│   ├── genomes/        # Reference FASTA files & MD5
+│   └── bams
+|   └── gbs_sim
+|   └── iss
+|   └── pbsim3
+|   └── qualimap
+|   └── stats
+|   └── trimmed_reads
+|   └── wgsim
+├── scripts/
+│   ├── aligniss.sh/
+│   ├── alignpb.sh/
+│   ├── downloadrefgen.sh/
+│   ├── indexrefgenome.sh/
+│   ├── iss_qcpre.sh/
+│   ├── master_wgsim_pipeline.sh/
+│   ├── mummer.sh/
+│   ├── qcgenome.sh/
+│   ├── qualimapat.sh/
+│   ├── simgbs.sh/
+│   ├── simiss.sh/
+│   ├── simisspars.sh/
+│   ├── simpbs3.sh/
+│   ├── trim_iss.sh/
+│   ├── tsviss.sh/
+│   └── tsvpb.sh/
+├── results/
+├── logs/
+└── README.md
+└── RefGenPrelimEnv.yml
+└── AssemblyStats.yml
 
