@@ -47,37 +47,37 @@ The scripts & code:
 	- **qualimapat.sh** tried to examine the quality of the mapping for short reads, did not prove insightful since coverage was not a factor
 	- *qcgenome.sh** script to compare the quality of reference genomes using assembly stats, busco & quash. Ran, but did not include data due to time
 
+```text
 RefGenPrelim/
-├── data/                       # Raw and processed genomic data (excluded from repo)
+├── data/                       # Raw and processed genomic data
 │   ├── bams/                   # Alignment files
 │   ├── gbs_sim/                # GBS simulation outputs
-│   ├── genomes/                # Reference FASTA files & MD5 checksums
+│   ├── genomes/                # Reference FASTA files & MD5
 │   ├── iss/                    # InSilicoSeq intermediate files
 │   ├── pbsim3/                 # PacBio simulation data
 │   ├── qualimap/               # Quality control reports
 │   ├── stats/                  # Summary statistics
 │   ├── trimmed_reads/          # Post-QC sequencing reads
 │   └── wgsim/                  # wgsim simulation outputs
-├── scripts/                    # Pipeline automation and analysis scripts
-│   ├── aligniss.sh             # Alignment for InSilicoSeq reads
-│   ├── alignpb.sh              # Alignment for PacBio reads
-│   ├── downloadrefgen.sh       # Reference genome acquisition
-│   ├── indexrefgenome.sh       # BWA/Samtools indexing
-│   ├── iss_qcpre.sh            # Pre-alignment QC for ISS
-│   ├── master_wgsim_pipeline.sh# Main workflow wrapper
-│   ├── mummer.sh               # Comparative genomics analysis
-│   ├── qcgenome.sh             # Genome assembly QC
-│   ├── qualimapat.sh           # Automated Qualimap reports
-│   ├── simgbs.sh               # GBS data simulation
-│   ├── simiss.sh               # InSilicoSeq simulation
-│   ├── simisspars.sh           # Parameter parsing for ISS
-│   ├── simpbs3.sh              # PBSIM3 simulation
-│   ├── trim_iss.sh             # Read trimming/adapter removal
-│   ├── tsviss.sh               # Data conversion for ISS
-│   └── tsvpb.sh                # Data conversion for PacBio
-├── results/                    # Final analysis outputs and figures
-├── logs/                       # Standard out/error logs from pipeline runs
-├── AssemblyStats.yml           # Configuration for assembly metrics
+├── scripts/                    # Pipeline automation
+│   ├── aligniss.sh
+│   ├── alignpb.sh
+│   ├── downloadrefgen.sh
+│   ├── indexrefgenome.sh
+│   ├── iss_qcpre.sh
+│   ├── master_wgsim_pipeline.sh
+│   ├── mummer.sh
+│   ├── qcgenome.sh
+│   ├── qualimapat.sh
+│   ├── simgbs.sh
+│   ├── simiss.sh
+│   ├── simisspars.sh
+│   ├── simpbs3.sh
+│   ├── trim_iss.sh
+│   ├── tsviss.sh
+│   └── tsvpb.sh
+├── results/                    # Final analysis outputs
+├── logs/                       # Pipeline run logs
+├── AssemblyStats.yml           # Assembly metrics config
 ├── README.md                   # Project documentation
-└── RefGenPrelimEnv.yml         # Conda/Mamba environment definition
-
+└── RefGenPrelimEnv.yml         # Conda environment definition
